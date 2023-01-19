@@ -1,12 +1,27 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using FirebaseAdmin;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
 
-namespace API.Extensions
+namespace API.Extensions;
+
+public static class ApplicationServiceExtensions
 {
-    public class ApplicationServiceExtension
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
     {
-        
+        services.AddControllers((options) => {
+            var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+            options.Filters.Add(new AuthorizeFilter(policy));
+        });
+        //services.AddSingleton<FirebaseApp>(FirebaseApp.Create());
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen();
+        services.AddDbContext<Persistence.DataContext>(opt => {
+            opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
+        });
+        //services.AddMediatR(typeof(List.Handler));
+        //services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+
+        return services;
     }
 }
