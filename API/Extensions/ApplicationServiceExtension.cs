@@ -1,4 +1,6 @@
-using FirebaseAdmin;
+using Application.Core;
+using Application.Products;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -9,18 +11,18 @@ public static class ApplicationServiceExtensions
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
     {
+        //services.AddSingleton<FirebaseApp>(FirebaseApp.Create());
         services.AddControllers((options) => {
             var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
             options.Filters.Add(new AuthorizeFilter(policy));
         });
-        //services.AddSingleton<FirebaseApp>(FirebaseApp.Create());
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         services.AddDbContext<Persistence.DataContext>(opt => {
             opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
         });
-        //services.AddMediatR(typeof(List.Handler));
-        //services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+        services.AddMediatR(typeof(List.Handler));
+        services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
         return services;
     }
