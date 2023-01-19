@@ -1,7 +1,7 @@
 using Application.Products;
 using Domain;
 using MediatR;
-using Microsoft.AspNetCore.Mvc; 
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
