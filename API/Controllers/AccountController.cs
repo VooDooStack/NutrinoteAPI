@@ -73,6 +73,8 @@ namespace API.Controllers
             }
 
 
+
+
             var AppUser = new AppUser
             {
                 DisplayName = registerDto.DisplayName,
