@@ -27,7 +27,7 @@ namespace API.Controllers
         [HttpGet("{id:Guid}")]
         public async Task<ActionResult> GetFoodItem(Guid id)
         {
-            throw new NotImplementedException();
+            return Ok(await Mediator.Send(new Details.Command { Id = id }));
         }
 
         [HttpGet]
