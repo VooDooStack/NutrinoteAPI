@@ -17,13 +17,10 @@ namespace API.Controllers
         }
 
         [HttpPost("{id:Guid?}")]
-        public async Task<ActionResult> UpdateOrCreateFoodItem(Guid? id, FoodItem foodItem)
-        {
-            if (id != null)
-            {
-                foodItem.Id = id.Value;
-            }
 
+        public async Task<IActionResult> UpdateOrCreateFoodItem(Guid? id, FoodItem foodItem)
+        {
+            if (id != null) foodItem.Id = id.Value;
             return Ok(await Mediator.Send(new UpdateOrCreate.Command { FoodItem = foodItem }));
         }
 
