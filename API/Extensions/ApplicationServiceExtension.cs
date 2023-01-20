@@ -1,4 +1,7 @@
+using Application.Core;
+using Application.FoodItems;
 using FirebaseAdmin;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -19,8 +22,8 @@ public static class ApplicationServiceExtensions
         services.AddDbContext<Persistence.DataContext>(opt => {
             opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
         });
-        //services.AddMediatR(typeof(List.Handler));
-        //services.AddAutoMapper(typeof(MappingProfiles).Assembly);
+        services.AddMediatR(typeof(UpdateOrCreate.Handler));
+        services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
         return services;
     }
