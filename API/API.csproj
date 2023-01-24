@@ -23,4 +23,10 @@
     <ProjectReference Include="..\Application\Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Remove="web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="web.config" />
+  </ItemGroup>
 </Project>
