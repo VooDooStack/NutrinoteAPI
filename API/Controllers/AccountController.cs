@@ -15,7 +15,7 @@ namespace API.Controllers
     {
         private readonly IConfiguration _config;
         private readonly FirebaseAuthConfig _firebaseAuthConfig;
-        private readonly FirebaseAuthClient _firebaseAuthClient;       
+        private readonly FirebaseAuthClient _firebaseAuthClient;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         public SignInManager<AppUser> SignInManager { get; }
@@ -30,10 +30,11 @@ namespace API.Controllers
             _userManager = userManager;
             _config = config;
 
-            _firebaseAuthConfig = new FirebaseAuthConfig {
-            ApiKey = _config["FirebaseApiKey"],
-            AuthDomain = _config["FirebaseAuthDomain"],
-            Providers = new FirebaseAuthProvider[]
+            _firebaseAuthConfig = new FirebaseAuthConfig
+            {
+                ApiKey = _config["FirebaseApiKey"],
+                AuthDomain = _config["FirebaseAuthDomain"],
+                Providers = new FirebaseAuthProvider[]
             {
                 // Add and configure individual providers
                 new GoogleProvider().AddScopes("email"),
@@ -48,16 +49,15 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
-            var user = await _userManager.FindByEmailAsync(loginDto.Email);
-            if (user == null) return Unauthorized("No user found with that email");
+            UserCredential client = await _firebaseAuthClient.SignInWithEmailAndPasswordAsync(loginDto.Email, loginDto.Password);
 
-            var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
-            if (!result.Succeeded) return Unauthorized("Incorrect email or password");
+            var user = await _userManager.FindByEmailAsync(client.User.Info.Email);
+            if (user == null) return Unauthorized("No user found with that email");
 
             return new UserDto
             {
                 Email = user.Email,
-                Token = _tokenService.GenerateToken(user),
+                Token = await client.User.GetIdTokenAsync(),
                 DisplayName = user.DisplayName
             };
         }
@@ -65,15 +65,11 @@ namespace API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
-
-            var user =  await _firebaseAuthClient.CreateUserWithEmailAndPasswordAsync(registerDto.Email, registerDto.Password);
+            var user = await _firebaseAuthClient.CreateUserWithEmailAndPasswordAsync(registerDto.Email, registerDto.Password);
             if (registerDto.DisplayName != null)
             {
-            await  user.User.ChangeDisplayNameAsync(displayName: registerDto.DisplayName);
+                await user.User.ChangeDisplayNameAsync(displayName: registerDto.DisplayName);
             }
-
-
-
 
             var AppUser = new AppUser
             {
@@ -94,7 +90,7 @@ namespace API.Controllers
                 };
             }
 
-            return BadRequest(result.Errors);
+            return Unauthorized(result.Errors);
         }
     }
 }

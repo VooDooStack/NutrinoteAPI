@@ -1,6 +1,5 @@
 using Application.Core;
 using Application.FoodItems;
-using FirebaseAdmin;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -12,11 +11,11 @@ public static class ApplicationServiceExtensions
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
     {
+        //services.AddSingleton<FirebaseApp>(FirebaseApp.Create());
         services.AddControllers((options) => {
             var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
             options.Filters.Add(new AuthorizeFilter(policy));
         });
-        //services.AddSingleton<FirebaseApp>(FirebaseApp.Create());
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         services.AddDbContext<Persistence.DataContext>(opt => {
