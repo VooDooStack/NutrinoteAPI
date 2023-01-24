@@ -41,9 +41,9 @@ if (builder.Environment.IsDevelopment())
 var app = builder.Build();
 
 app.UseSwagger();
+
 if (app.Environment.IsDevelopment())
 {
-    
     app.UseSwaggerUI();
 }
 app.UseAuthorization();
