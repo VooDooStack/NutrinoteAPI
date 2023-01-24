@@ -1,5 +1,5 @@
 using Application.Core;
-using Application.Products;
+using Application.FoodItems;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -19,9 +19,9 @@ public static class ApplicationServiceExtensions
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         services.AddDbContext<Persistence.DataContext>(opt => {
-            opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
+            opt.UseSqlServer(config.GetConnectionString("DefaultConnection"));
         });
-        services.AddMediatR(typeof(List.Handler));
+        services.AddMediatR(typeof(UpdateOrCreate.Handler));
         services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 
         return services;

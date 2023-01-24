@@ -7,8 +7,8 @@ namespace Persistence
     {
         public DataContext(DbContextOptions options) : base(options) {}
         
-         public DbSet<AppUser> AppUser { get; set; }
-         public DbSet<Product> Products { get; set; }
+         public DbSet<AppUser> AppUsers { get; set; }
+         public DbSet<FoodItem> FoodItems { get; set; }
         
     }
 }

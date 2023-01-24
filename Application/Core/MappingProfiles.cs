@@ -1,12 +1,13 @@
 using AutoMapper;
 using Domain;
 
-namespace Application.Core;
-
-public class MappingProfiles : Profile
+namespace Application.Core
 {
-    public MappingProfiles()
+    public class MappingProfiles : Profile
     {
-        CreateMap<Product, Product>();
+        public MappingProfiles()
+        {
+            CreateMap<FoodItem, FoodItem>();
+        }
     }
 }

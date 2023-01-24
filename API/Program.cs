@@ -1,4 +1,3 @@
-
 using API.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -41,9 +40,10 @@ if (builder.Environment.IsDevelopment())
 
 var app = builder.Build();
 
+app.UseSwagger();
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
+    
     app.UseSwaggerUI();
 }
 app.UseAuthorization();
