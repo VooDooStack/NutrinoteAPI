@@ -9,12 +9,6 @@ namespace API.Controllers
     [AllowAnonymous]
     public class FoodItemController : BaseApiController
     {
-        private readonly IMediator Mediator;
-        public FoodItemController(IMediator mediator)
-        {
-
-            Mediator = mediator;
-        }
 
         [HttpPost("{id:Guid?}")]
 
