@@ -20,7 +20,7 @@ public static class ApplicationServiceExtensions
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         services.AddDbContext<Persistence.DataContext>(opt => {
-            opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
+            opt.UseSqlServer(config.GetConnectionString("DefaultConnection"));
         });
         services.AddMediatR(typeof(UpdateOrCreate.Handler));
         services.AddAutoMapper(typeof(MappingProfiles).Assembly);
