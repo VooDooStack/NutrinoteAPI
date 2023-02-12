@@ -11,8 +11,9 @@ builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddApplicationServices(builder.Configuration);
 if (builder.Environment.IsDevelopment())
 {
-    
-    builder.Services.AddSwaggerGen(setup => {
+
+    builder.Services.AddSwaggerGen(setup =>
+    {
         // Include 'SecurityScheme' to use JWT Authentication
         var jwtSecurityScheme = new OpenApiSecurityScheme
         {
@@ -39,8 +40,11 @@ if (builder.Environment.IsDevelopment())
     });
 }
 
-var app = builder.Build();
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+var url = $"http://0.0.0.0:{port}";
+builder.WebHost.UseUrls(url);
 
+var app = builder.Build();
 app.UseSwagger();
 
 if (app.Environment.IsDevelopment())
@@ -57,7 +61,7 @@ try
 {
     var context = services.GetRequiredService<DataContext>();
     await context.Database.MigrateAsync();
-    
+
 }
 catch (Exception ex)
 {
