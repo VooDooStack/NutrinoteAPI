@@ -12,14 +12,16 @@ public static class ApplicationServiceExtensions
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
     {
         //services.AddSingleton<FirebaseApp>(FirebaseApp.Create());
-        services.AddControllers((options) => {
+        services.AddControllers((options) =>
+        {
             var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
             options.Filters.Add(new AuthorizeFilter(policy));
         });
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
-        services.AddDbContext<Persistence.DataContext>(opt => {
-            opt.UseSqlite(config.GetConnectionString("DefaultConnection"));
+        services.AddDbContext<Persistence.DataContext>(opt =>
+        {
+            opt.UseSqlite(Environment.GetEnvironmentVariable("ConnectionString") ?? config.GetConnectionString("DefaultConnection"));
         });
         services.AddMediatR(typeof(List.Handler));
         services.AddAutoMapper(typeof(MappingProfiles).Assembly);
