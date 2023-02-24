@@ -21,7 +21,8 @@ public static class ApplicationServiceExtensions
         services.AddSwaggerGen();
         services.AddDbContext<Persistence.DataContext>(opt =>
         {
-            opt.UseSqlite(Environment.GetEnvironmentVariable("ConnectionString") ?? config.GetConnectionString("DefaultConnection"));
+            opt.UseNpgsql(
+                $"database={Environment.GetEnvironmentVariable("database")};server={Environment.GetEnvironmentVariable("server")};port=5432;uid={Environment.GetEnvironmentVariable("user")};pwd={Environment.GetEnvironmentVariable("user_pass")};MinPoolSize=0;MaxPoolSize=100;");
         });
         services.AddMediatR(typeof(List.Handler));
         services.AddAutoMapper(typeof(MappingProfiles).Assembly);
