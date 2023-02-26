@@ -20,6 +20,7 @@ public static class ApplicationServiceExtensions
             var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
             options.Filters.Add(new AuthorizeFilter(policy));
         });
+        services.AddFirebaseAuthentication();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         services.AddDbContext<Persistence.DataContext>(opt =>

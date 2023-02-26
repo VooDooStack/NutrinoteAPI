@@ -7,7 +7,6 @@ using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddApplicationServices(builder.Configuration);
 if (builder.Environment.IsDevelopment())
 {

@@ -16,15 +16,15 @@ namespace API.Controllers
         private readonly IConfiguration _config;
         private readonly FirebaseAuthConfig _firebaseAuthConfig;
         private readonly FirebaseAuthClient _firebaseAuthClient;
-        private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
-        public SignInManager<AppUser> SignInManager { get; }
-        private readonly TokenService _tokenService;
+        private readonly UserManager<FirebaseUser> _userManager;
+        private readonly SignInManager<FirebaseUser> _signInManager;
+        public SignInManager<FirebaseUser> SignInManager { get; }
+        // private readonly FirebaseAdminAuthentication _tokenService;
 
-        public AccountController(IConfiguration config, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, TokenService tokenService)
+        public AccountController(IConfiguration config, UserManager<FirebaseUser> userManager, SignInManager<FirebaseUser> signInManager)
 
         {
-            _tokenService = tokenService;
+            // _tokenService = tokenService;
             SignInManager = signInManager;
             _signInManager = signInManager;
             _userManager = userManager;
@@ -58,7 +58,7 @@ namespace API.Controllers
             {
                 Email = user.Email,
                 Token = await client.User.GetIdTokenAsync(),
-                DisplayName = user.DisplayName
+                DisplayName = user.Username
             };
         }
 
@@ -71,11 +71,12 @@ namespace API.Controllers
                 await user.User.ChangeDisplayNameAsync(displayName: registerDto.DisplayName);
             }
 
-            var AppUser = new AppUser
+            var AppUser = new FirebaseUser
             {
-                DisplayName = registerDto.DisplayName,
-                Email = registerDto.Email,
-                UserName = registerDto.DisplayName,
+                Id = user.User.Info.Uid,
+                Email = user.User.Info.Email,
+                EmailVerified = user.User.Info.IsEmailVerified,
+                Username = user.User.Info.DisplayName,
             };
 
             var result = await _userManager.CreateAsync(AppUser, registerDto.Password);
