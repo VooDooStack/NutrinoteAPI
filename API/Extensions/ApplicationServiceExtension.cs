@@ -22,12 +22,12 @@ public static class ApplicationServiceExtensions
             var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
             options.Filters.Add(new AuthorizeFilter(policy));
         });
-        
+
         services.AddSingleton<FirebaseApp>(FirebaseApp.Create(options: new AppOptions()
-            {
-                ProjectId = "nutrinote-7daa5",
-                Credential = GoogleCredential.FromFile("firebase_admin.json")
-            }
+        {
+            ProjectId = "nutrinote-375816",
+            Credential = GoogleCredential.FromFile("firebase_admin.json")
+        }
         ));
         services.AddFirebaseAuthentication();
 
