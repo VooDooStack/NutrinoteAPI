@@ -1,7 +1,11 @@
+using API.Services;
 using Application.Core;
 using Application.Products;
 using FirebaseAdmin;
+using FirebaseAdminAuthentication.DependencyInjection.Extensions;
+using Google.Apis.Auth.OAuth2;
 using MediatR;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -13,14 +17,20 @@ public static class ApplicationServiceExtensions
 {
     public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
     {
-        // var connectionString = $"database={Environment.GetEnvironmentVariable("database")};server={Environment.GetEnvironmentVariable("server")};port=5432;uid={Environment.GetEnvironmentVariable("user")};pwd={Environment.GetEnvironmentVariable("user_pass")};MinPoolSize=0;MaxPoolSize=100;";
-        services.AddSingleton<FirebaseApp>(FirebaseApp.Create());
         services.AddControllers((options) =>
         {
             var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
             options.Filters.Add(new AuthorizeFilter(policy));
         });
+        
+        services.AddSingleton<FirebaseApp>(FirebaseApp.Create(options: new AppOptions()
+            {
+                ProjectId = "nutrinote-7daa5",
+                Credential = GoogleCredential.FromFile("firebase_admin.json")
+            }
+        ));
         services.AddFirebaseAuthentication();
+
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         services.AddDbContext<Persistence.DataContext>(opt =>
@@ -29,7 +39,6 @@ public static class ApplicationServiceExtensions
         });
         services.AddMediatR(typeof(List.Handler));
         services.AddAutoMapper(typeof(MappingProfiles).Assembly);
-
         return services;
     }
 }

@@ -16,18 +16,14 @@ namespace API.Controllers
         private readonly IConfiguration _config;
         private readonly FirebaseAuthConfig _firebaseAuthConfig;
         private readonly FirebaseAuthClient _firebaseAuthClient;
-        private readonly UserManager<FirebaseUser> _userManager;
-        private readonly SignInManager<FirebaseUser> _signInManager;
+         private readonly SignInManager<FirebaseUser> _signInManager;
         public SignInManager<FirebaseUser> SignInManager { get; }
         // private readonly FirebaseAdminAuthentication _tokenService;
 
-        public AccountController(IConfiguration config, UserManager<FirebaseUser> userManager, SignInManager<FirebaseUser> signInManager)
+        public AccountController(IConfiguration config)
 
         {
             // _tokenService = tokenService;
-            SignInManager = signInManager;
-            _signInManager = signInManager;
-            _userManager = userManager;
             _config = config;
 
             _firebaseAuthConfig = new FirebaseAuthConfig
@@ -49,49 +45,61 @@ namespace API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
-            UserCredential client = await _firebaseAuthClient.SignInWithEmailAndPasswordAsync(loginDto.Email, loginDto.Password);
-
-            var user = await _userManager.FindByEmailAsync(client.User.Info.Email);
-            if (user == null) return Unauthorized("No user found with that email");
-
-            return new UserDto
+            try
             {
-                Email = user.Email,
-                Token = await client.User.GetIdTokenAsync(),
-                DisplayName = user.Username
-            };
+                var client = await _firebaseAuthClient.SignInWithEmailAndPasswordAsync(loginDto.Email, loginDto.Password);
+
+                var user = client.User.Info;
+                if (user == null) return Unauthorized("No user found with that email");
+
+                var userDTO = new UserDto
+                {
+                    DisplayName = user.DisplayName,
+                    ImageUrl = user.PhotoUrl,
+                    Token = await client.User.GetIdTokenAsync(),
+                };
+                
+                return userDTO;
+            }
+            catch (Exception e)
+            {
+                return Unauthorized(e.Message);
+            }
         }
 
         [HttpPost("register")]
         public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
-            var user = await _firebaseAuthClient.CreateUserWithEmailAndPasswordAsync(registerDto.Email, registerDto.Password);
-            if (registerDto.DisplayName != null)
+            try
             {
-                await user.User.ChangeDisplayNameAsync(displayName: registerDto.DisplayName);
-            }
+                var user = await _firebaseAuthClient.CreateUserWithEmailAndPasswordAsync(registerDto.Email, registerDto.Password);
+                if (registerDto.DisplayName != null)
+                {
+                    await user.User.ChangeDisplayNameAsync(displayName: registerDto.DisplayName);
+                }
 
-            var AppUser = new FirebaseUser
-            {
-                Id = user.User.Info.Uid,
-                Email = user.User.Info.Email,
-                EmailVerified = user.User.Info.IsEmailVerified,
-                Username = user.User.Info.DisplayName,
-            };
+                var AppUser = new FirebaseUser
+                {
+                    Id = user.User.Info.Uid,
+                    Email = user.User.Info.Email,
+                    EmailVerified = user.User.Info.IsEmailVerified,
+                    Username = user.User.Info.DisplayName,
+                };
 
-            var result = await _userManager.CreateAsync(AppUser, registerDto.Password);
 
-            if (result.Succeeded)
-            {
+         
                 return new UserDto
                 {
                     DisplayName = user.User.Info.DisplayName,
                     ImageUrl = user.User.Info.PhotoUrl,
                     Token = await user.User.GetIdTokenAsync(),
                 };
-            }
 
-            return Unauthorized(result.Errors);
+            }
+            catch (Exception e)
+            {
+                return Unauthorized(e.Message);
+            }
         }
     }
 }
