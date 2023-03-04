@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "nutrinote-375816",
+  "private_key_id": "7b7b480d870abd8e27ece44af2ccf797cf52ea83",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC6kQ4TmIpmicqm\n8qgwzTvOMGE9KCdFg0s7m22P2dPIbNmK81Dg6nonP5igWMHCHxx55yhdjPySWxgi\nyE8BMq1lsTL0uEvxRCgfaHnhtyIW8B7A2GylNM/H55iOeSQXTnlONrhNQO/3e2ba\nTTTx3+HoQAF5wIWtj+qPX5PXDMoGaNLVGIvQJADunhuVnMFI6CNQCqwRkzaeQhZx\nXeX+VrPd60/0tOHT5jrhUDsMzd2tiEuRABu3etuajWRoGi0XDYhgEwpqVbrTINig\nUmLaucmp53VX/LUAgYU1/HDIsbOceTXIuX8UqRMRVrzIcZlBgE7gxHLq591/ok2R\nMTeE+5SJAgMBAAECggEAF/7CDbkny8pbGx/IjAZJc9p7Fy+L5X/edDsoW0EL4RJG\n5H0o4NSng1bFnZHs0bfIpNEbOvUAIx6+OvMCXkgTTyn8QMdXVR+L/YYlbudr5gFa\nIzlyt8jUFITv9RsVjj3Ukj+tcpowgucHMnqNnbJKzuE0j2E4kDsbUvda/2SwsyQd\n+rBwp0GDBfvRcSdfGQ8Ujgh6ZH3zTG0zORqAjw2EAYvUsL73resYMYbK/dmdG+79\nEWJ0PaKAhhQuS4Tt9RGX1NJuOoX+GBOx/DZ6SS6vGo5sc4qbv1x4DOraUNbIcgUQ\n1x45mU/PZFUTpfc/lJCDPvrDMvSK5JkGTNFARogphQKBgQDk9rDoe7rFG/FrR5p6\n8x9CbT7c/80KHLFH+ImGc4/ALqjbAJVJc52t0hsgMR9EVrV3XqymH90BH3noqfQa\nbYbJliV9XzOdHuoDObNZFHWjgcYXyNTW0xi7w77W/tvE6u1QjrE1J4wXgLHKW1j+\n5rsPRN8xFXbXrd/Ocn1gEGuHPwKBgQDQmMAo+QyP776n1PwaCmXJ3GrKNf8oJs0L\nJQsc1GzmKuA6j/gZfPX3y7kFsz1I5jQjfBzNZKGGB+L4D894QR+TreMhzb7+3/xW\nJdM7OrX43aTP+BY+ZQsEoNVMaV+REJAXRefUld/S5LpzUiEmrQNk3BHlyWwbcINj\nVb++jrL6NwKBgQDYLiu+dgRUUxvQhNzQtXiQSYGPPF6l641fPMTsk3PoqqV3kcdi\ngK0iDzzZWkgBSDUyLcupVnBevQ9no//8a+lVsFRZWWfsM+IThYlW1EB2TvNwRYjg\nBJRXxGwNprht5rqG0xNx8pMNJc+4FiOjGMsJkaeCOpfo8BxeWi8SYq6EFQKBgQCe\nGAcbhpXUyTlQbgWbnuHCegGdvArkXXPtzGd9tCnM0BYdjFvWxXSOF6LlBRGfnIlL\nk5cou+oHcRa+Nw1g8MqD3LhWOF9XQF8403YiX77nHOT6keYZ5+7P1S2TuhEqGsl6\nOgsYfXajmaMOH+LsMxhtarVN2LjMmxuZP7YRMInJRQKBgF0pQHsZN2PhIlDmVSSS\narZ9BkVqHUfqPBHt1uYfJEsHtmtAdQWco9BNbPChpXP+qqTk52NMjtimZLItNt22\n6N+qVxnWg3LmLM8f+eWMFmxx22DWEKf0cb34bLE7p9Qjctiipi2wtVLHPSJ7S7Fm\ndfF3Ux5IEwFhfxmOAu/2kTn2\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-3d8gq@nutrinote-375816.iam.gserviceaccount.com",
+  "client_id": "105942052588315664936",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-3d8gq%40nutrinote-375816.iam.gserviceaccount.com"
+}
