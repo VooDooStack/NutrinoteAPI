@@ -1,10 +1,8 @@
 using API.DTOs;
-using API.Services;
 using Domain;
 using Firebase.Auth;
 using Firebase.Auth.Providers;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 
@@ -16,14 +14,10 @@ namespace API.Controllers
         private readonly IConfiguration _config;
         private readonly FirebaseAuthConfig _firebaseAuthConfig;
         private readonly FirebaseAuthClient _firebaseAuthClient;
-         private readonly SignInManager<FirebaseUser> _signInManager;
-        public SignInManager<FirebaseUser> SignInManager { get; }
-        // private readonly FirebaseAdminAuthentication _tokenService;
 
         public AccountController(IConfiguration config)
 
         {
-            // _tokenService = tokenService;
             _config = config;
 
             _firebaseAuthConfig = new FirebaseAuthConfig
@@ -32,7 +26,6 @@ namespace API.Controllers
                 AuthDomain = _config["FirebaseAuthDomain"],
                 Providers = new FirebaseAuthProvider[]
             {
-                // Add and configure individual providers
                 new GoogleProvider().AddScopes("email"),
                 new EmailProvider()
                 // ...
@@ -43,7 +36,7 @@ namespace API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
+        public async Task<ActionResult<FirebaseUser>> Login(LoginDto loginDto)
         {
             try
             {
@@ -52,14 +45,16 @@ namespace API.Controllers
                 var user = client.User.Info;
                 if (user == null) return Unauthorized("No user found with that email");
 
-                var userDTO = new UserDto
+                var firebaseUser = new FirebaseUser
                 {
-                    DisplayName = user.DisplayName,
-                    ImageUrl = user.PhotoUrl,
+                    Id = user.Uid,
+                    Email = user.Email,
+                    EmailVerified = user.IsEmailVerified,
+                    Username = user.DisplayName,
                     Token = await client.User.GetIdTokenAsync(),
                 };
                 
-                return userDTO;
+                return firebaseUser;
             }
             catch (Exception e)
             {
@@ -101,5 +96,30 @@ namespace API.Controllers
                 return Unauthorized(e.Message);
             }
         }
+
+        [HttpPost("authenticate")]
+        public async Task<ActionResult<FirebaseUser>> Authenticate()
+        {
+            try
+            {
+                var client =  _firebaseAuthClient.User.Info;
+    
+                return  new FirebaseUser
+                {
+                    Id = client.Uid,
+                    Email = client.Email,
+                    EmailVerified = client.IsEmailVerified,
+                    Username = client.DisplayName,
+                    Token = await  _firebaseAuthClient.User.GetIdTokenAsync(),
+                };
+            }
+            catch (Exception e)
+            {
+                return Unauthorized(e.Message);
+            }
+        }
+
+
+
     }
 }
