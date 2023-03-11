@@ -1,5 +1,4 @@
-using AutoMapper;
-using Domain;
+using AutoMapper; 
 using MediatR;
 using OpenFoodFacts;
 using Persistence;
@@ -32,7 +31,7 @@ public abstract class Details
                 var product = await _context.Products.FindAsync(new object[] { request.Id }, cancellationToken);
                 if (product != null) return product;
 
-                Console.WriteLine("not product found from db; trying to get from open food facts");
+                Console.WriteLine("no product found from db matching {0}; trying to get from open food facts", request.Id);
 
                 var client = new HttpClient();
                 var response = await client.GetAsync($"https://world.openfoodfacts.org/api/v2/product/{request.Id}",
@@ -46,7 +45,7 @@ public abstract class Details
                     Console.WriteLine("product result {0}", openFoodFact.Product.GenericNameDe ?? "");
                     product = new Product
                     {
-                        Id = openFoodFact.Product.Code,
+                        Id = openFoodFact.Product.Code ?? Guid.NewGuid().ToString(),
                         Name = openFoodFact.Product.GenericNameEn,
                         Description = openFoodFact.Product.Labels,
                         ImageThumbnailUrl = openFoodFact.Product.ImageThumbUrl,
