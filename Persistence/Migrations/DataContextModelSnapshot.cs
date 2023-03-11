@@ -22,7 +22,7 @@ namespace Persistence.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Domain.FirebaseUser", b =>
+            modelBuilder.Entity("Domain.AppUser", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("text");
@@ -38,17 +38,252 @@ namespace Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AppUser");
+                    b.ToTable("AppUsers");
                 });
 
-            modelBuilder.Entity("Domain.Product", b =>
+            modelBuilder.Entity("Domain.Nutrients", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("Barcode")
-                        .HasColumnType("integer");
+                    b.Property<double>("Carbohydrates")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Carbohydrates100G")
+                        .HasColumnType("double precision");
+
+                    b.Property<long>("CarbohydratesServing")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("CarbohydratesUnit")
+                        .HasColumnType("text");
+
+                    b.Property<double>("CarbohydratesValue")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("CarbonFootprintFromKnownIngredients100G")
+                        .HasColumnType("double precision");
+
+                    b.Property<long>("CarbonFootprintFromKnownIngredientsProduct")
+                        .HasColumnType("bigint");
+
+                    b.Property<double>("CarbonFootprintFromKnownIngredientsServing")
+                        .HasColumnType("double precision");
+
+                    b.Property<long>("Energy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("Energy100G")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("EnergyKcal")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("EnergyKcal100G")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("EnergyKcalServing")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("EnergyKcalUnit")
+                        .HasColumnType("text");
+
+                    b.Property<long>("EnergyKcalValue")
+                        .HasColumnType("bigint");
+
+                    b.Property<double>("EnergyKcalValueComputed")
+                        .HasColumnType("double precision");
+
+                    b.Property<long>("EnergyKj")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("EnergyKj100G")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("EnergyKjServing")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("EnergyKjUnit")
+                        .HasColumnType("text");
+
+                    b.Property<long>("EnergyKjValue")
+                        .HasColumnType("bigint");
+
+                    b.Property<double>("EnergyKjValueComputed")
+                        .HasColumnType("double precision");
+
+                    b.Property<long>("EnergyServing")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("EnergyUnit")
+                        .HasColumnType("text");
+
+                    b.Property<long>("EnergyValue")
+                        .HasColumnType("bigint");
+
+                    b.Property<double>("Fat")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Fat100G")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("FatServing")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("FatUnit")
+                        .HasColumnType("text");
+
+                    b.Property<double>("FatValue")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Fiber")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Fiber100G")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("FiberServing")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("FiberUnit")
+                        .HasColumnType("text");
+
+                    b.Property<double>("FiberValue")
+                        .HasColumnType("double precision");
+
+                    b.Property<long>("FruitsVegetablesNutsEstimateFromIngredients100G")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("FruitsVegetablesNutsEstimateFromIngredientsServing")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("NovaGroup")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("NovaGroup100G")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("NovaGroupServing")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("NutritionScoreFr")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("NutritionScoreFr100G")
+                        .HasColumnType("bigint");
+
+                    b.Property<double>("Proteins")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Proteins100G")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("ProteinsServing")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("ProteinsUnit")
+                        .HasColumnType("text");
+
+                    b.Property<double>("ProteinsValue")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Salt")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Salt100G")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("SaltServing")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("SaltUnit")
+                        .HasColumnType("text");
+
+                    b.Property<double>("SaltValue")
+                        .HasColumnType("double precision");
+
+                    b.Property<long>("SaturatedFat")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("SaturatedFat100G")
+                        .HasColumnType("bigint");
+
+                    b.Property<double>("SaturatedFatServing")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("SaturatedFatUnit")
+                        .HasColumnType("text");
+
+                    b.Property<long>("SaturatedFatValue")
+                        .HasColumnType("bigint");
+
+                    b.Property<double>("Sodium")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Sodium100G")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("SodiumServing")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("SodiumUnit")
+                        .HasColumnType("text");
+
+                    b.Property<double>("SodiumValue")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Sugars")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("Sugars100G")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("SugarsServing")
+                        .HasColumnType("double precision");
+
+                    b.Property<string>("SugarsUnit")
+                        .HasColumnType("text");
+
+                    b.Property<double>("SugarsValue")
+                        .HasColumnType("double precision");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Nutrients");
+                });
+
+            modelBuilder.Entity("Domain.NutritionLog", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("LogDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("ProductId")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("NutritionLog");
+                });
+
+            modelBuilder.Entity("Domain.Product", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Barcode")
+                        .HasColumnType("text");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
@@ -62,12 +297,46 @@ namespace Persistence.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("text");
 
+                    b.Property<Guid?>("NutrientsId")
+                        .HasColumnType("uuid");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("NutrientsId");
+
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Domain.NutritionLog", b =>
+                {
+                    b.HasOne("Domain.AppUser", "AppUser")
+                        .WithMany("NutritionLogs")
+                        .HasForeignKey("AppUserId");
+
+                    b.HasOne("Domain.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
+
+                    b.Navigation("AppUser");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Domain.Product", b =>
+                {
+                    b.HasOne("Domain.Nutrients", "Nutrients")
+                        .WithMany()
+                        .HasForeignKey("NutrientsId");
+
+                    b.Navigation("Nutrients");
+                });
+
+            modelBuilder.Entity("Domain.AppUser", b =>
+                {
+                    b.Navigation("NutritionLogs");
                 });
 #pragma warning restore 612, 618
         }

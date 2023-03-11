@@ -11,8 +11,8 @@ public class Edit
     {
         public Product Product { get; init; }
     }
-    
-    public  class Handler : IRequestHandler<Command>
+
+    public class Handler : IRequestHandler<Command>
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
@@ -22,15 +22,15 @@ public class Edit
             _context = context;
             _mapper = mapper;
         }
-        
+
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
             var product = await _context.Products.FindAsync(request.Product.Id);
-           
+
             _mapper.Map(request.Product, product);
 
             await _context.SaveChangesAsync(cancellationToken);
-            
+
             return Unit.Value;
         }
     }

@@ -1,4 +1,3 @@
-
 using API.Extensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -9,8 +8,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddApplicationServices(builder.Configuration);
 if (builder.Environment.IsDevelopment())
-{
-
     builder.Services.AddSwaggerGen(setup =>
     {
         // Include 'SecurityScheme' to use JWT Authentication
@@ -37,7 +34,6 @@ if (builder.Environment.IsDevelopment())
             { jwtSecurityScheme, Array.Empty<string>() }
         });
     });
-}
 
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 var url = $"http://0.0.0.0:{port}";
@@ -46,12 +42,9 @@ builder.WebHost.UseUrls(url);
 var app = builder.Build();
 app.UseSwagger();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwaggerUI();
-}
+if (app.Environment.IsDevelopment()) app.UseSwaggerUI();
 
-app.UseAuthentication();    
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
@@ -62,7 +55,6 @@ try
 {
     var context = services.GetRequiredService<DataContext>();
     await context.Database.MigrateAsync();
-
 }
 catch (Exception ex)
 {

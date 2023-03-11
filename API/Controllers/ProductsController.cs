@@ -14,7 +14,7 @@ public class ProductsController : BaseApiController
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<Product>> GetProduct(Guid id)
+    public async Task<ActionResult<Product>> GetProduct(string id)
     {
         return await Mediator.Send(new Details.Query { Id = id });
     }
@@ -26,7 +26,7 @@ public class ProductsController : BaseApiController
     }
 
     [HttpPut("{id}")]
-    public async Task<ActionResult<Unit>> EditProduct(Guid id, Product product)
+    public async Task<ActionResult<Unit>> EditProduct(string id, Product product)
     {
         product.Id = id;
         return Ok(await Mediator.Send(new Edit.Command { Product = product }));

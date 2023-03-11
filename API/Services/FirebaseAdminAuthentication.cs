@@ -20,22 +20,19 @@ public abstract class FirebaseAdminAuthentication
             _firebaseApp = firebaseApp;
         }
 
-        public Task<AuthenticateResult> HandleAuthenticateAsync(HttpRequest request) =>
-            HandleAuthenticateAsync(request.HttpContext);
+        public Task<AuthenticateResult> HandleAuthenticateAsync(HttpRequest request)
+        {
+            return HandleAuthenticateAsync(request.HttpContext);
+        }
 
         public async Task<AuthenticateResult> HandleAuthenticateAsync(HttpContext context)
         {
-            if (!context.Request.Headers.ContainsKey("Authorization"))
-            {
-                return AuthenticateResult.NoResult();
-            }
+            if (!context.Request.Headers.ContainsKey("Authorization")) return AuthenticateResult.NoResult();
 
             string bearerToken = context.Request.Headers["Authorization"];
 
             if (bearerToken == null || !bearerToken.StartsWith(BEARER_PREFIX))
-            {
                 return AuthenticateResult.Fail("Invalid scheme.");
-            }
 
             var token = bearerToken[BEARER_PREFIX.Length..];
 
@@ -53,9 +50,9 @@ public abstract class FirebaseAdminAuthentication
 
         private AuthenticationTicket CreateAuthenticationTicket(FirebaseToken firebaseToken)
         {
-            ClaimsPrincipal claimsPrincipal = new ClaimsPrincipal(new List<ClaimsIdentity>()
+            var claimsPrincipal = new ClaimsPrincipal(new List<ClaimsIdentity>
             {
-                new ClaimsIdentity(ToClaims(firebaseToken.Claims), nameof(ClaimsIdentity))
+                new(ToClaims(firebaseToken.Claims), nameof(ClaimsIdentity))
             });
 
             return new AuthenticationTicket(claimsPrincipal, JwtBearerDefaults.AuthenticationScheme);
@@ -65,10 +62,10 @@ public abstract class FirebaseAdminAuthentication
         {
             return new List<Claim>
             {
-                new Claim(FirebaseUserClaimType.ID, claims.GetValueOrDefault("user_id", "").ToString()),
-                new Claim(FirebaseUserClaimType.EMAIL, claims.GetValueOrDefault("email", "").ToString()),
-                new Claim(FirebaseUserClaimType.EMAIL_VERIFIED, claims.GetValueOrDefault("email_verified", "").ToString()),
-                new Claim(FirebaseUserClaimType.USERNAME, claims.GetValueOrDefault("name", "").ToString()),
+                new(FirebaseUserClaimType.ID, claims.GetValueOrDefault("user_id", "").ToString()),
+                new(FirebaseUserClaimType.EMAIL, claims.GetValueOrDefault("email", "").ToString()),
+                new(FirebaseUserClaimType.EMAIL_VERIFIED, claims.GetValueOrDefault("email_verified", "").ToString()),
+                new(FirebaseUserClaimType.USERNAME, claims.GetValueOrDefault("name", "").ToString())
             };
         }
     }
