@@ -8,6 +8,5 @@ public class MappingProfiles : Profile
     public MappingProfiles()
     {
         CreateMap<Product, Product>();
-        // CreateMap<Nutrients, Nutriments>();
     }
 }

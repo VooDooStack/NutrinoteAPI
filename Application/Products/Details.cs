@@ -1,4 +1,5 @@
-using AutoMapper; 
+using AutoMapper;
+using Domain;
 using MediatR;
 using OpenFoodFacts;
 using Persistence;
@@ -50,7 +51,7 @@ public abstract class Details
                         Description = openFoodFact.Product.Labels,
                         ImageThumbnailUrl = openFoodFact.Product.ImageThumbUrl,
                         Barcode = openFoodFact.Product.Code,
-                        // Nutrients = _mapper.Map<Nutrients>(openFoodFact.Product.Nutriments)
+                        Nutrients = Nutrients.Map(openFoodFact.Product.Nutriments)
                     };
                     _context.Products.Add(product);
                     await _context.SaveChangesAsync(cancellationToken);
