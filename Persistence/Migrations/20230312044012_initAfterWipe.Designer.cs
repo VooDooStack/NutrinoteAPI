@@ -12,8 +12,8 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230312023511_ForeignKeysAddedToNutritionLog")]
-    partial class ForeignKeysAddedToNutritionLog
+    [Migration("20230312044012_initAfterWipe")]
+    partial class initAfterWipe
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -346,13 +346,15 @@ namespace Persistence.Migrations
 
             modelBuilder.Entity("Domain.NutritionLog", b =>
                 {
-                    b.HasOne("Domain.AppUser", null)
+                    b.HasOne("Domain.AppUser", "AppUser")
                         .WithMany("NutritionLogs")
                         .HasForeignKey("AppUserId");
 
                     b.HasOne("Domain.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId");
+
+                    b.Navigation("AppUser");
 
                     b.Navigation("Product");
                 });

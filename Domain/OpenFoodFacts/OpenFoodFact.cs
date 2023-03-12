@@ -664,13 +664,16 @@ namespace OpenFoodFacts
         public string[] PopularityTags { get; set; }
 
         [JsonProperty("producer_version_id", NullValueHandling = NullValueHandling.Ignore)]
-        public DateTimeOffset? ProducerVersionId { get; set; }
+        public string? ProducerVersionId { get; set; }
 
         [JsonProperty("producer_version_id_imported", NullValueHandling = NullValueHandling.Ignore)]
-        public DateTimeOffset? ProducerVersionIdImported { get; set; }
+        public string? ProducerVersionIdImported { get; set; }
 
         [JsonProperty("product_name_de", NullValueHandling = NullValueHandling.Ignore)]
         public string ProductNameDe { get; set; }
+        
+        [JsonProperty("product_name", NullValueHandling = NullValueHandling.Ignore)]
+        public string ProductName { get; set; }
 
         [JsonProperty("product_name_en", NullValueHandling = NullValueHandling.Ignore)]
         public string ProductNameEn { get; set; }
@@ -716,8 +719,7 @@ namespace OpenFoodFacts
         public SelectedImages SelectedImages { get; set; }
 
         [JsonProperty("serving_quantity", NullValueHandling = NullValueHandling.Ignore)]
-        [JsonConverter(typeof(PurpleParseStringConverter))]
-        public long? ServingQuantity { get; set; }
+         public double? ServingQuantity { get; set; }
 
         [JsonProperty("serving_size", NullValueHandling = NullValueHandling.Ignore)]
         public string ServingSize { get; set; }
@@ -1902,7 +1904,7 @@ namespace OpenFoodFacts
 
     public enum EcoscoreGrade { A, B, C, D, E };
 
-    public enum FromPalmOil { Maybe, No, Yes };
+    public enum FromPalmOil { Maybe, No, Yes, Unknown};
 
     public enum Owner { OrgFerreroFranceCommerciale };
 
@@ -2073,6 +2075,8 @@ namespace OpenFoodFacts
                     return FromPalmOil.No;
                 case "yes":
                     return FromPalmOil.Yes;
+                default: 
+                    return FromPalmOil.Unknown;
             }
             throw new Exception("Cannot unmarshal type FromPalmOil");
         }

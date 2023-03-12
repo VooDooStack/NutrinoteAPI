@@ -25,6 +25,8 @@ public abstract class Create
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
             request.Nutrition.AppUserId = _userAccessor.getUserId();
+            request.Nutrition.CreatedAt = DateTime.Now.ToUniversalTime();
+            request.Nutrition.UpdatedAt = DateTime.Now.ToUniversalTime();
             _context.NutritionLog.Add(request.Nutrition);
             
             await _context.SaveChangesAsync(cancellationToken);
