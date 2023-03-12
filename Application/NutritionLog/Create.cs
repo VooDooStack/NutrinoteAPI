@@ -1,3 +1,4 @@
+using Application.Interfaces;
 using MediatR;
 using Persistence;
 
@@ -13,16 +14,19 @@ public abstract class Create
     public class Handler : IRequestHandler<Command>
     {
         private readonly DataContext _context;
+        private readonly IUserAccessor _userAccessor;
 
-        public Handler(DataContext context)
+        public Handler(DataContext context, IUserAccessor userAccessor)
         {
             _context = context;
+            _userAccessor = userAccessor;
         }
 
         public async Task<Unit> Handle(Command request, CancellationToken cancellationToken)
         {
+            request.Nutrition.AppUserId = _userAccessor.getUserId();
             _context.NutritionLog.Add(request.Nutrition);
-
+            
             await _context.SaveChangesAsync(cancellationToken);
 
             return Unit.Value;

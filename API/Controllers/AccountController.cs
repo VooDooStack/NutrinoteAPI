@@ -44,17 +44,11 @@ public class AccountController : BaseApiController
 
             var user = client.User.Info;
             if (user == null) return Unauthorized("No user found with that email");
-
-            var firebaseUser = new AppUser
-            {
-                Id = user.Uid,
-                Email = user.Email,
-                EmailVerified = user.IsEmailVerified,
-                Username = user.DisplayName,
-                Token = await client.User.GetIdTokenAsync()
-            };
-
-            return firebaseUser;
+            
+            var appUser = await Mediator.Send(new Details.Query { Id = user.Uid });
+            appUser.Token = await client.User.GetIdTokenAsync();
+            
+            return appUser;
         }
         catch (Exception e)
         {
@@ -77,7 +71,12 @@ public class AccountController : BaseApiController
                 Email = user.User.Info.Email,
                 EmailVerified = user.User.Info.IsEmailVerified,
                 Token = _firebaseAuthClient.User.GetIdTokenAsync().Result,
-                Username = user.User.Info.DisplayName
+                Username = user.User.Info.DisplayName,
+                Height = registerDto.Height, 
+                Weight = registerDto.Weight,
+                Age = registerDto.Age,
+                ActivityLevel = registerDto.ActivityLevel,
+                Gender = registerDto.Gender
             };
 
             Mediator.Send(new Create.Command { AppUser = appUser });
@@ -96,15 +95,7 @@ public class AccountController : BaseApiController
         try
         {
             var client = _firebaseAuthClient.User.Info;
-
-            return new AppUser
-            {
-                Id = client.Uid,
-                Email = client.Email,
-                EmailVerified = client.IsEmailVerified,
-                Username = client.DisplayName,
-                Token = await _firebaseAuthClient.User.GetIdTokenAsync()
-            };
+            return await Mediator.Send(new Details.Query { Id = client.Uid });
         }
         catch (Exception e)
         {

@@ -1304,20 +1304,16 @@ namespace OpenFoodFacts
         public bool? WhiteMagic { get; set; }
 
         [JsonProperty("x1", NullValueHandling = NullValueHandling.Ignore)]
-        [JsonConverter(typeof(PurpleParseStringConverter))]
-        public long? X1 { get; set; }
+         public string? X1 { get; set; }
 
         [JsonProperty("x2", NullValueHandling = NullValueHandling.Ignore)]
-        [JsonConverter(typeof(PurpleParseStringConverter))]
-        public long? X2 { get; set; }
+         public string? X2 { get; set; }
 
         [JsonProperty("y1", NullValueHandling = NullValueHandling.Ignore)]
-        [JsonConverter(typeof(PurpleParseStringConverter))]
-        public long? Y1 { get; set; }
+         public string? Y1 { get; set; }
 
         [JsonProperty("y2", NullValueHandling = NullValueHandling.Ignore)]
-        [JsonConverter(typeof(PurpleParseStringConverter))]
-        public long? Y2 { get; set; }
+         public  string? Y2 { get; set; }
     }
 
     public partial class The1
@@ -1904,7 +1900,7 @@ namespace OpenFoodFacts
         public DateTimeOffset? PublicationDateTime { get; set; }
     }
 
-    public enum EcoscoreGrade { C, D };
+    public enum EcoscoreGrade { A, B, C, D, E };
 
     public enum FromPalmOil { Maybe, No, Yes };
 
@@ -1928,6 +1924,7 @@ namespace OpenFoodFacts
         {
             MetadataPropertyHandling = MetadataPropertyHandling.Ignore,
             DateParseHandling = DateParseHandling.None,
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
             Converters =
             {
                 EcoscoreGradeConverter.Singleton,
@@ -1985,10 +1982,16 @@ namespace OpenFoodFacts
             var value = serializer.Deserialize<string>(reader);
             switch (value)
             {
+                case "a":
+                    return EcoscoreGrade.A;
+                case "b":
+                    return EcoscoreGrade.B;
                 case "c":
                     return EcoscoreGrade.C;
                 case "d":
                     return EcoscoreGrade.D;
+                case "e":
+                    return EcoscoreGrade.E;
                 default:
                     return EcoscoreGrade.C;
             }
@@ -2033,7 +2036,9 @@ namespace OpenFoodFacts
             {
                 return b;
             }
-            throw new Exception("Cannot unmarshal type bool");
+            return null;
+            Console.WriteLine("cannot parse " + value + " to bool");
+            // throw new Exception("Cannot unmarshal type bool");
         }
 
         public override void WriteJson(JsonWriter writer, object untypedValue, JsonSerializer serializer)

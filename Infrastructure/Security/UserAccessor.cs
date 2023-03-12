@@ -15,16 +15,16 @@ public class UserAccessor : IUserAccessor
 
     public string GetUsername()
     {
-        return (_httpContextAccessor.HttpContext.User?.FindFirst(FirebaseUserClaimType.USERNAME)).ToString();
+        return (_httpContextAccessor.HttpContext.User?.FindFirst(FirebaseUserClaimType.USERNAME)).Value;
     }
 
     public string getUserId()
     {
-        return (_httpContextAccessor.HttpContext.User?.FindFirst(FirebaseUserClaimType.ID)).ToString();
+        return (_httpContextAccessor.HttpContext.User?.FindFirst(FirebaseUserClaimType.ID)).Value;
     }
 
     public string getEmail()
     {
-        return (_httpContextAccessor.HttpContext.User?.FindFirst(FirebaseUserClaimType.EMAIL)).ToString();
+        return (_httpContextAccessor.HttpContext.User?.FindFirst(FirebaseUserClaimType.EMAIL)).Value;
     }
 }

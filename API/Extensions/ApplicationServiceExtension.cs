@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Application.Core;
 using Application.Interfaces;
 using Application.Products;
@@ -41,6 +42,12 @@ public static class ApplicationServiceExtensions
         services.AddMediatR(typeof(List.Handler));
         services.AddAutoMapper(typeof(MappingProfiles).Assembly);
         services.AddHttpContextAccessor();
+        services.AddControllers().AddJsonOptions(options =>
+        {
+            options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            options.JsonSerializerOptions.WriteIndented = true;
+        });
+
         services.AddScoped<IUserAccessor, UserAccessor>();
         return services;
     }

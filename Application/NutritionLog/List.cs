@@ -25,6 +25,8 @@ public abstract class List
             try
             {
                 return await _context.NutritionLog.Where(x => x.AppUserId == request.AppUserId)
+                    .Include(x => x.Product)
+                    .ThenInclude(x => x.Nutrients)
                     .ToListAsync(cancellationToken);
             }
             catch (Exception e)
